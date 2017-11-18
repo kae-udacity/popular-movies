@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="size_loading_indicator">48dp</dimen>
+    <dimen name="height_movie_poster">196dp</dimen>
+    <dimen name="margin_movie_details_small">8dp</dimen>
+    <dimen name="margin_movie_details_large">20dp</dimen>
+    <dimen name="margin_movie_description">8dp</dimen>
+    <dimen name="margin_empty_view">32dp</dimen>
+    <dimen name="padding_movie_title_large">24dp</dimen>
+    <dimen name="padding_movie_title_small">16dp</dimen>
+    <dimen name="padding_movie_poster">40dp</dimen>
+    <dimen name="text_size_movie_release_date">24sp</dimen>
+    <dimen name="text_size_movie_title">32sp</dimen>
+    <dimen name="text_size_movie_vote_average">16sp</dimen>
+    <dimen name="text_size_movie_description">16sp</dimen>
+    <dimen name="text_size_empty_view">24sp</dimen>
+</resources>

@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Pop Movies</string>
+    <string name="api_key" translatable="false">api_key</string>
+    <string name="api_key_value" translatable="false"></string>
+    <string name="base_request_url" translatable="false">https://api.themoviedb.org/3/movie</string>
+    <string name="https" translatable="false">https</string>
+    <string name="image_authority" translatable="false">image.tmdb.org</string>
+    <string name="t" translatable="false">t</string>
+    <string name="p" translatable="false">p</string>
+    <string name="image_size_w185" translatable="false">w185</string>
+    <string name="settings_title">Settings</string>
+    <string name="settings_sort_by_default_label">Sort by</string>
+    <string name="settings_popular_label">Most popular</string>
+    <string name="settings_top_rated_label">Highest rated</string>
+    <string name="settings_popular_value" translatable="false">popular</string>
+    <string name="settings_top_rated_value" translatable="false">top_rated</string>
+    <string name="settings_sort_by_default_key" translatable="false">popular</string>
+    <string name="settings_sort_by_default_value" translatable="false">popular</string>
+    <string name="movie_poster">movie poster</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="yyyy_mm_dd" translatable="false">yyyy-MM-dd</string>
+    <string name="lll_dd_yyyy" translatable="false">LLL dd, yyyy</string>
+    <string name="get" translatable="false">GET</string>
+    <string name="error_parsing_date" translatable="false">Error parsing date</string>
+    <string name="error_creating_url" translatable="false">Error creating url.</string>
+    <string name="error_retrieving_data_response_code" translatable="false">Error retrieving data. Response code:</string>
+    <string name="error_retrieving_data" translatable="false">Error retrieving movie data.</string>
+    <string name="error_closing_input_stream" translatable="false">Error closing input stream.</string>
+    <string name="error_parsing_response" translatable="false">Error parsing JSON response</string>
+    <string name="results" translatable="false">results</string>
+    <string name="title" translatable="false">title</string>
+    <string name="poster_path" translatable="false">poster_path</string>
+    <string name="overview" translatable="false">overview</string>
+    <string name="vote_average" translatable="false">vote_average</string>
+    <string name="release_date" translatable="false">release_date</string>
+    <string name="movie" translatable="false">movie</string>
+    <string name="no_movies_found">No movies found.\nTry again.</string>
+    <string name="no_internet_connection">No internet connection.</string>
+</resources>
