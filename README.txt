@@ -2,4 +2,4 @@
 ==========
 API key
 ==========
-The API key should be entered as the string value of api_key_value in res/strings.xml
+In the gradle.properties file, add API_KEY_VALUE=YOUR_API_KEY

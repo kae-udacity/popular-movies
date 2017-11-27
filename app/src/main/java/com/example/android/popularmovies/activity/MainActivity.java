@@ -1,13 +1,10 @@
 package com.example.android.popularmovies.activity;
 
-import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Intent;
 import android.content.Loader;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -19,14 +16,19 @@ import android.view.View;
 
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.adapter.MovieAdapter;
-import com.example.android.popularmovies.loader.MovieLoader;
+import com.example.android.popularmovies.loader.MovieListLoader;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.databinding.ActivityMainBinding;
+import com.example.android.popularmovies.util.NetworkUtils;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>>, MovieAdapter.MovieAdapterOnClickHandler {
+public class MainActivity extends AppCompatActivity implements
+        MovieAdapter.MovieAdapterOnClickHandler,
+        LoaderCallbacks<List<Movie>>,
+        SharedPreferences.OnSharedPreferenceChangeListener {
 
+    private static final int MOVIE_LIST_LOADER_ID = 1;
     private ActivityMainBinding binding;
     private MovieAdapter movieAdapter;
 
@@ -35,21 +37,31 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         movieAdapter = new MovieAdapter(this);
-        binding.rvMovies.setAdapter(movieAdapter);
+        binding.recyclerViewMovies.setAdapter(movieAdapter);
 
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
-        binding.rvMovies.setLayoutManager(layoutManager);
+        binding.recyclerViewMovies.setLayoutManager(layoutManager);
 
-        if (isOnline()) {
-            binding.rvMovies.setVisibility(View.VISIBLE);
-            binding.tvEmptyView.setVisibility(View.GONE);
-            getLoaderManager().initLoader(0, null, this);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String sortBy = sharedPrefs.getString(
+                getString(R.string.settings_sort_by_default_key),
+                getString(R.string.settings_sort_by_default_value)
+        );
+        if (NetworkUtils.isOnline(this) || sortBy.equals(getString(R.string.settings_favourites_value))) {
+            binding.recyclerViewMovies.setVisibility(View.VISIBLE);
+            binding.emptyView.setVisibility(View.GONE);
+            getLoaderManager().initLoader(MOVIE_LIST_LOADER_ID, null, this);
         } else {
-            binding.loadingIndicator.setVisibility(View.GONE);
-            binding.rvMovies.setVisibility(View.GONE);
-            binding.tvEmptyView.setText(R.string.no_internet_connection);
-            binding.tvEmptyView.setVisibility(View.VISIBLE);
+            setupEmptyView(R.string.no_internet_connection);
         }
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
     }
 
     @Override
@@ -70,25 +82,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public MovieLoader onCreateLoader(int i, Bundle bundle) {
+    public MovieListLoader onCreateLoader(int i, Bundle bundle) {
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
         String sortBy = sharedPrefs.getString(
                 getString(R.string.settings_sort_by_default_key),
                 getString(R.string.settings_sort_by_default_value)
         );
-        Uri baseUri = Uri.parse(getString(R.string.base_request_url));
-
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendPath(sortBy);
-        uriBuilder.appendQueryParameter(getString(R.string.api_key), getString(R.string.api_key_value));
-        return new MovieLoader(this, uriBuilder.toString());
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        getLoaderManager().restartLoader(0, null, this);
+        return new MovieListLoader(this, sortBy);
     }
 
     @Override
@@ -96,17 +97,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         binding.loadingIndicator.setVisibility(View.GONE);
         movieAdapter.clear();
 
-        if (movies != null && !movies.isEmpty()) {
-            binding.rvMovies.setVisibility(View.VISIBLE);
-            binding.tvEmptyView.setVisibility(View.GONE);
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-            movieAdapter.setMovies(movies);
-            movieAdapter.notifyDataSetChanged();
+        String sortBy = sharedPrefs.getString(
+                getString(R.string.settings_sort_by_default_key),
+                getString(R.string.settings_sort_by_default_value)
+        );
+        if (NetworkUtils.isOnline(this) || sortBy.equals(getString(R.string.settings_favourites_value))) {
+            if (movies != null && !movies.isEmpty()) {
+                binding.recyclerViewMovies.setVisibility(View.VISIBLE);
+                binding.emptyView.setVisibility(View.GONE);
+
+                movieAdapter.setMovies(movies);
+                movieAdapter.notifyDataSetChanged();
+            } else {
+                int messageResourceId = R.string.no_movies_found;
+                if (sortBy.equals(getString(R.string.settings_favourites_value))) {
+                    messageResourceId = R.string.no_favourites_added;
+                }
+                setupEmptyView(messageResourceId);
+            }
         } else {
-            binding.loadingIndicator.setVisibility(View.GONE);
-            binding.rvMovies.setVisibility(View.GONE);
-            binding.tvEmptyView.setText(R.string.no_movies_found);
-            binding.tvEmptyView.setVisibility(View.VISIBLE);
+            setupEmptyView(R.string.no_internet_connection);
         }
     }
 
@@ -123,12 +135,28 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         startActivity(intent);
     }
 
-    private boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.getActiveNetworkInfo();
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key.equals(getString(R.string.settings_sort_by_default_key))) {
+            movieAdapter.clear();
+            movieAdapter.notifyDataSetChanged();
+
+            String sortBy = sharedPreferences.getString(key, getString(R.string.settings_sort_by_default_value));
+            if (NetworkUtils.isOnline(this) || sortBy.equals(getString(R.string.settings_favourites_value))) {
+                binding.loadingIndicator.setVisibility(View.VISIBLE);
+                binding.recyclerViewMovies.setVisibility(View.GONE);
+                binding.emptyView.setVisibility(View.GONE);
+                getLoaderManager().restartLoader(MOVIE_LIST_LOADER_ID, null, this);
+            } else {
+                setupEmptyView(R.string.no_internet_connection);
+            }
         }
-        return networkInfo != null && networkInfo.isConnected();
+    }
+
+    private void setupEmptyView(int stringResourceId) {
+        binding.loadingIndicator.setVisibility(View.GONE);
+        binding.recyclerViewMovies.setVisibility(View.GONE);
+        binding.emptyView.setText(stringResourceId);
+        binding.emptyView.setVisibility(View.VISIBLE);
     }
 }

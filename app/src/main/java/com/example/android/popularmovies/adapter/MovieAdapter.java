@@ -1,7 +1,6 @@
 package com.example.android.popularmovies.adapter;
 
-import android.content.Context;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.widget.ImageView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.Movie;
-import com.example.android.popularmovies.util.NetworkUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -37,7 +34,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.layout_grid_item, parent, false);
 
-        int height = parent.getHeight() / 2;
+        int height;
+        if (parent.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            height = parent.getHeight() / 2;
+        } else {
+            height = (int) (parent.getHeight() * 1.5);
+        }
         int width = parent.getWidth() / 2;
 
         view.setLayoutParams(new RecyclerView.LayoutParams(width, height));
@@ -50,9 +52,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
             return;
         }
         Movie movie = movies.get(position);
-        Context context = holder.moviePosterImageView.getContext();
-        Uri posterUri = NetworkUtils.getImageUri(context,movie.getPosterPath());
-        Picasso.with(context).load(posterUri).into(holder.moviePosterImageView);
+        holder.moviePosterImageView.setImageBitmap(movie.getPoster());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
         if (movies == null) {
             return;
         }
-        this.movies.clear();
+        movies.clear();
     }
 
     class MovieAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -80,7 +80,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieAdapter
 
         MovieAdapterViewHolder(View itemView) {
             super(itemView);
-            moviePosterImageView = itemView.findViewById(R.id.iv_movie_poster);
+            moviePosterImageView = itemView.findViewById(R.id.image_view_movie_poster);
             itemView.setOnClickListener(this);
         }
 

@@ -6,6 +6,24 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>
+
+    <style name="MovieInfo">
+        <item name="android:layout_width">@dimen/width_details_info</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/margin_horizontal_details_info</item>
+        <item name="android:layout_marginLeft">@dimen/margin_horizontal_details_info</item>
+        <item name="android:layout_marginTop">@dimen/margin_top_details_info</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Large</item>
+        <item name="android:textColor">@color/colorTextDefault</item>
+    </style>
+
+    <style name="DetailsRecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/margin_horizontal_details_recycler_view</item>
+        <item name="android:layout_marginLeft">@dimen/margin_horizontal_details_recycler_view</item>
     </style>
 
 </resources>

@@ -3,10 +3,12 @@
     <string-array name="settings_sort_by_labels">
         <item>@string/settings_popular_label</item>
         <item>@string/settings_top_rated_label</item>
+        <item>@string/settings_favourites_label</item>
     </string-array>
 
     <string-array name="settings_sort_by_values">
         <item>@string/settings_popular_value</item>
         <item>@string/settings_top_rated_value</item>
+        <item>@string/settings_favourites_value</item>
     </string-array>
 </resources>

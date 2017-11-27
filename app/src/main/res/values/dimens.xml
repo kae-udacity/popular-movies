@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="size_loading_indicator">48dp</dimen>
-    <dimen name="height_movie_poster">196dp</dimen>
-    <dimen name="margin_movie_details_small">8dp</dimen>
-    <dimen name="margin_movie_details_large">20dp</dimen>
-    <dimen name="margin_movie_description">8dp</dimen>
+    <dimen name="size_details_star">48dp</dimen>
+    <dimen name="size_trailer_share_button">48dp</dimen>
+    <dimen name="size_trailer_play_arrow">48dp</dimen>
+    <dimen name="width_details_info">0dp</dimen>
+    <dimen name="width_details_description">0dp</dimen>
+    <dimen name="width_details_poster">140dp</dimen>
+    <dimen name="height_details_poster">180dp</dimen>
+    <dimen name="margin_horizontal_details_poster">16dp</dimen>
+    <dimen name="margin_top_details_poster">8dp</dimen>
     <dimen name="margin_empty_view">32dp</dimen>
-    <dimen name="padding_movie_title_large">24dp</dimen>
-    <dimen name="padding_movie_title_small">16dp</dimen>
-    <dimen name="padding_movie_poster">40dp</dimen>
-    <dimen name="text_size_movie_release_date">24sp</dimen>
-    <dimen name="text_size_movie_title">32sp</dimen>
-    <dimen name="text_size_movie_vote_average">16sp</dimen>
-    <dimen name="text_size_movie_description">16sp</dimen>
+    <dimen name="margin_horizontal_details_description">16dp</dimen>
+    <dimen name="margin_top_details_description">16dp</dimen>
+    <dimen name="margin_top_details_trailer_header">24dp</dimen>
+    <dimen name="margin_horizontal_details_recycler_view">16dp</dimen>
+    <dimen name="margin_top_details_review_header">8dp</dimen>
+    <dimen name="margin_top_details_star">8dp</dimen>
+    <dimen name="margin_horizontal_details_info">8dp</dimen>
+    <dimen name="margin_top_details_info">8dp</dimen>
+    <dimen name="margin_top_details_reviews_author">8dp</dimen>
+    <dimen name="margin_end_trailer_share_button">16dp</dimen>
+    <dimen name="margin_end_trailer_name">16dp</dimen>
+    <dimen name="padding_details_title_large">24dp</dimen>
+    <dimen name="padding_details_title_small">16dp</dimen>
+    <dimen name="padding_vertical_details_list_item">16dp</dimen>
     <dimen name="text_size_empty_view">24sp</dimen>
 </resources>

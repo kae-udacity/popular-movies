@@ -1,20 +1,22 @@
 <resources>
     <string name="app_name">Pop Movies</string>
     <string name="api_key" translatable="false">api_key</string>
-    <string name="api_key_value" translatable="false"></string>
     <string name="base_request_url" translatable="false">https://api.themoviedb.org/3/movie</string>
     <string name="https" translatable="false">https</string>
     <string name="image_authority" translatable="false">image.tmdb.org</string>
     <string name="t" translatable="false">t</string>
     <string name="p" translatable="false">p</string>
     <string name="image_size_w185" translatable="false">w185</string>
+    <string name="authority" translatable="false">com.example.android.popularmovies</string>
     <string name="settings_title">Settings</string>
     <string name="settings_sort_by_default_label">Sort by</string>
     <string name="settings_popular_label">Most popular</string>
     <string name="settings_top_rated_label">Highest rated</string>
+    <string name="settings_favourites_label">Favourites</string>
     <string name="settings_popular_value" translatable="false">popular</string>
     <string name="settings_top_rated_value" translatable="false">top_rated</string>
-    <string name="settings_sort_by_default_key" translatable="false">popular</string>
+    <string name="settings_favourites_value" translatable="false">favourites</string>
+    <string name="settings_sort_by_default_key" translatable="false">sort_by</string>
     <string name="settings_sort_by_default_value" translatable="false">popular</string>
     <string name="movie_poster">movie poster</string>
     <string name="movie_details">Movie Details</string>
@@ -35,5 +37,26 @@
     <string name="release_date" translatable="false">release_date</string>
     <string name="movie" translatable="false">movie</string>
     <string name="no_movies_found">No movies found.\nTry again.</string>
+    <string name="no_favourites_added">No favourites added.</string>
     <string name="no_internet_connection">No internet connection.</string>
+    <string name="trailers_label">Trailers</string>
+    <string name="videos" translatable="false">videos</string>
+    <string name="apiId" translatable="false">id</string>
+    <string name="unknown_uri" translatable="false">Unknown uri:</string>
+    <string name="insert_row_failed" translatable="false">Failed to insert row into</string>
+    <string name="error_loading_poster" translatable="false">Error loading poster.</string>
+    <string name="name" translatable="false">name</string>
+    <string name="key" translatable="false">key</string>
+    <string name="play_arrow">play arrow</string>
+    <string name="youtube_url" translatable="false">http://www.youtube.com/watch?v=</string>
+    <string name="youtube_protocol" translatable="false">vnd.youtube:</string>
+    <string name="reviews_label">Reviews</string>
+    <string name="reviews" translatable="false">reviews</string>
+    <string name="author" translatable="false">author</string>
+    <string name="content" translatable="false">content</string>
+    <string name="type" translatable="false">text/plain</string>
+    <string name="share_link_using">Share link using</string>
+    <string name="parameter_placeholder" translatable="false">=?</string>
+    <string name="share_trailer_link">share trailer link</string>
+    <string name="star">star</string>
 </resources>

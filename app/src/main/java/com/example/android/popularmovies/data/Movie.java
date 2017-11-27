@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.data;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -9,26 +10,29 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
+    private int apiId;
     private String title;
-    private String posterPath;
-    private String description;
-    private double voteAverage;
+    private Bitmap poster;
     private String releaseDate;
+    private String voteAverage;
+    private String description;
 
-    public Movie(String title, String posterPath, String description, double voteAverage, String releaseDate) {
+    public Movie(int apiId, String title, Bitmap poster, String releaseDate, String voteAverage, String description) {
+        this.apiId = apiId;
         this.title = title;
-        this.posterPath = posterPath;
-        this.description = description;
-        this.voteAverage = voteAverage;
+        this.poster = poster;
         this.releaseDate = releaseDate;
+        this.voteAverage = voteAverage;
+        this.description = description;
     }
 
     private Movie(Parcel in) {
+        apiId = in.readInt();
         title = in.readString();
-        posterPath = in.readString();
-        description = in.readString();
-        voteAverage = in.readDouble();
+        poster = (Bitmap) in.readValue(Bitmap.class.getClassLoader());
         releaseDate = in.readString();
+        voteAverage = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -43,37 +47,41 @@ public class Movie implements Parcelable {
         }
     };
 
+    public int getApiId() {
+        return apiId;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public String getPosterPath() {
-        return posterPath;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public double getVoteAverage() {
-        return voteAverage;
+    public Bitmap getPoster() {
+        return poster;
     }
 
     public String getReleaseDate() {
         return releaseDate;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getVoteAverage() {
+        return voteAverage;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeInt(apiId);
         parcel.writeString(title);
-        parcel.writeString(posterPath);
-        parcel.writeString(description);
-        parcel.writeDouble(voteAverage);
+        parcel.writeValue(poster);
         parcel.writeString(releaseDate);
+        parcel.writeString(voteAverage);
+        parcel.writeString(description);
+    }
+
+    public int describeContents() {
+        return 0;
     }
 }
