@@ -20,6 +20,7 @@ import java.util.List;
 public class MovieListLoader extends AsyncTaskLoader<List<Movie>> {
 
     private String sortBy;
+    private List<Movie> data;
 
     public MovieListLoader(Context context, String sortBy) {
         super(context);
@@ -28,7 +29,11 @@ public class MovieListLoader extends AsyncTaskLoader<List<Movie>> {
 
     @Override
     protected void onStartLoading() {
-        forceLoad();
+        if (data != null) {
+            deliverResult(data);
+        } else {
+            forceLoad();
+        }
     }
 
     @Override
@@ -53,5 +58,11 @@ public class MovieListLoader extends AsyncTaskLoader<List<Movie>> {
             String url = NetworkUtils.buildUrl(context, baseUri, sortBy);
             return NetworkUtils.fetchMovies(context, url);
         }
+    }
+
+    @Override
+    public void deliverResult(List<Movie> data) {
+        this.data = data;
+        super.deliverResult(data);
     }
 }

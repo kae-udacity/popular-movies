@@ -59,4 +59,5 @@
     <string name="parameter_placeholder" translatable="false">=?</string>
     <string name="share_trailer_link">share trailer link</string>
     <string name="star">star</string>
+    <string name="scroll_position" translatable="false">SCROLL_POSITION</string>
 </resources>

@@ -179,6 +179,24 @@ public class DetailsActivity extends AppCompatActivity implements TrailerAdapter
         }
     }
 
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putIntArray(getString(R.string.scroll_position),
+                new int[]{binding.detailsScrollView.getScrollX(), binding.detailsScrollView.getScrollY()});
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int[] position = savedInstanceState.getIntArray(getString(R.string.scroll_position));
+        if(position != null) {
+            binding.detailsScrollView.post(new Runnable() {
+                public void run() {
+                    binding.detailsScrollView.scrollTo(position[0], position[1]);
+                }
+            });
+        }
+    }
+
     public void updateFavourites(View view) {
         if (movie == null) {
             return;

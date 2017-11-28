@@ -17,6 +17,7 @@ import java.util.List;
 public class MovieReviewLoader extends AsyncTaskLoader<List<Review>> {
 
     private int apiId;
+    private List<Review> data;
 
     public MovieReviewLoader(Context context, int apiId) {
         super(context);
@@ -25,7 +26,11 @@ public class MovieReviewLoader extends AsyncTaskLoader<List<Review>> {
 
     @Override
     protected void onStartLoading() {
-        forceLoad();
+        if (data != null) {
+            deliverResult(data);
+        } else {
+            forceLoad();
+        }
     }
 
     @Override
@@ -38,5 +43,11 @@ public class MovieReviewLoader extends AsyncTaskLoader<List<Review>> {
         Uri baseUri = Uri.parse(context.getString(R.string.base_request_url));
         String url = NetworkUtils.buildUrl(context, baseUri, String.valueOf(apiId), context.getString(R.string.reviews));
         return NetworkUtils.fetchReviews(context, url);
+    }
+
+    @Override
+    public void deliverResult(List<Review> data) {
+        this.data = data;
+        super.deliverResult(data);
     }
 }

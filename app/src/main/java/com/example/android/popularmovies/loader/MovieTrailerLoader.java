@@ -17,6 +17,7 @@ import java.util.List;
 public class MovieTrailerLoader extends AsyncTaskLoader<List<Trailer>> {
 
     private int apiId;
+    private List<Trailer> data;
 
     public MovieTrailerLoader(Context context, int apiId) {
         super(context);
@@ -25,7 +26,11 @@ public class MovieTrailerLoader extends AsyncTaskLoader<List<Trailer>> {
 
     @Override
     protected void onStartLoading() {
-        forceLoad();
+        if (data != null) {
+            deliverResult(data);
+        } else {
+            forceLoad();
+        }
     }
 
     @Override
@@ -38,5 +43,11 @@ public class MovieTrailerLoader extends AsyncTaskLoader<List<Trailer>> {
         Uri baseUri = Uri.parse(context.getString(R.string.base_request_url));
         String url = NetworkUtils.buildUrl(context, baseUri, String.valueOf(apiId), context.getString(R.string.videos));
         return NetworkUtils.fetchTrailers(context, url);
+    }
+
+    @Override
+    public void deliverResult(List<Trailer> data) {
+        this.data = data;
+        super.deliverResult(data);
     }
 }
